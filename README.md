@@ -15,5 +15,7 @@ An example file provided by Insight contains more than 2.5 million lines of text
 
 Using some parallel processing framework to extend our task to multiple machines can scale this solution by providing more memory and compute power.
 
+Currently failing Insight's test- my repo is not formatted correctly.
+
 ## Contact
 Amery Chang at ac3241@nyu.edu
