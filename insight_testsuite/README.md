@@ -15,3 +15,8 @@ Threw in a bunch of spaces between the header and one record. Ensure that this i
 4. Company names capitalized test
 
 Ensure that different capitalizations of the same company name are treated different. The output should indicate that only one company received complaints. 
+
+5. Test 1
+
+Insight's provided input. Make sure (1) the complain names are lowercase, (2) any strings that contain quotations show the quotations in the output, (3) the outputs are sorted by complaint type and year. 
+ 
