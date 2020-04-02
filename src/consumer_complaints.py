@@ -3,7 +3,6 @@
 
 import sys
 
-
 def parseLine(line, records):
     """
     Input: One line (record) in a CSV file, one list that we want to append to
