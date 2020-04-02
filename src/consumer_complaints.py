@@ -24,13 +24,13 @@ def parseLine(line, records):
         # If the line begins with a quotation, then everything from this quotation mark to the next is one value
         if line[i] == '"':
             i += 1
-            while i != len(line) - 1 and line[i] != '"':
+            while i != len(line)and line[i] != '"':
                 buff += line[i]
                 i += 1
             i += 1
         else:
             # If not, the value we extract either goes until the next comma, or the end of the line
-            while i != len(line) - 1 and line[i] != ',':
+            while i != len(line) and line[i] != ',':
                 buff += line[i]
                 i += 1
         fields.append(buff)
@@ -59,10 +59,12 @@ def getOutputList(records):
             line += k[0].lower() + "," + k[1] + ","
         totalComplaints = 0
         maxComplaints = 0
+        companyCounter = 0
         for i in v.values():
             totalComplaints += i
             if i > maxComplaints:
                 maxComplaints = i
+            companyCounter += 1    
         # Calculate the ratio of maxComplaints to totalComplaints 
         # This denotes the highest number of complaints against one company
         ratio = maxComplaints/totalComplaints
@@ -71,7 +73,7 @@ def getOutputList(records):
             ratio += 1
         ratio = int(ratio)
         complaintsAgainstMax = ratio
-        line += str(totalComplaints) + "," + str(maxComplaints) + "," + str(complaintsAgainstMax)
+        line += str(totalComplaints) + "," + str(companyCounter) + "," + str(complaintsAgainstMax)
         outputList.append(line)
         line = ""
     return sorted(outputList)
@@ -98,20 +100,20 @@ def main(inputFile, outputFile):
         for i in contents.split('\n'):
             tupes.append(i)
     except:
-        print("Error opening inputFile, exiting...")
+        print("Error: Cannot open input file. Exiting.")
         exit(1)
 
     # List for holding parsed tupes
     myRecords = []
     for i in tupes:
         parseLine(i, myRecords)
-        
-   # If there were any stray newline tokens in the file, they produce an empty string, so we remove them
-   # This is another O(n) operation, maybe a better solution is possible?
-    for i in myRecords:
-        if ( len(i) == 0):
-            myRecords.remove(i)
-    
+  
+    # Data validation
+    # If there were any stray newline tokens in the file, they'll produce an empty list here, so we remove them. The list comp filters these out.
+    # Or, if any record did not consist of 18 comma-deliminated fields, remove it
+    myRecords = filter(None, myRecords)
+    myRecords = [x for x in myRecords if len(x) == 18]
+
     # Use a dictionary to hold indices of fields
     schemaIndices = {}
     index = 0
@@ -121,9 +123,13 @@ def main(inputFile, outputFile):
 
     # This will get us the correct indices to look in for any particular tuple
     # Note that by doing this, we need our columns to have these titles, but the columns can be in any order    
-    productInd = schemaIndices["Product"]
-    dateIndex = schemaIndices["Date received"]
-    companyIndex = schemaIndices["Company"]    
+    try:
+        productInd = schemaIndices["Product"]
+        dateIndex = schemaIndices["Date received"]
+        companyIndex = schemaIndices["Company"]    
+    except:
+        print("Error: The input file does not have proper column headers. Exiting.")
+        exit(1)
 
     # Key is tuple<Product, Year>, Value is a Dictionary of <Company Name, # of Complaints>
     companyComplaintsDict = {}
@@ -132,15 +138,15 @@ def main(inputFile, outputFile):
         keyPair = ( i[productInd], getYear(i[dateIndex]) )
         if keyPair not in companyComplaintsDict:
             companyComplaintsDict [keyPair] = {}
-        companyName = i[companyIndex]
-        if companyName not in companyComplaintsDict [keyPair]:
-            companyComplaintsDict [keyPair][companyName] = 1
+        companyName = i[companyIndex].lower()
+        if companyName not in companyComplaintsDict[keyPair]:
+            companyComplaintsDict[keyPair][companyName] = 1
         else:
-            companyComplaintsDict [keyPair][companyName] += 1
+            companyComplaintsDict[keyPair][companyName] += 1
 
     myOutputList = getOutputList(companyComplaintsDict)
 
-    f = open(outputFile, 'a+')
+    f = open(outputFile, 'w')
 
     for i in myOutputList:
         f.write(i + '\n')    

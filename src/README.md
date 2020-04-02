@@ -21,3 +21,10 @@ The result of parsing is a list of lists, where each list denotes one parsed rec
 For each list, we create a dictionary where the key is a tuple of (Product, Year) and the value is a dictionary of {CompanyName : Number of Complaints}. This is quite intuitive; the keys of dictionaries have to be unique, and we want to return unique aggregate measures for each product and year (basically a GroupBy statement). By keeping counts of how many complaints are filed against each company for that product and year, it's trivial to track the total complaints and maximum complaints against one company by iterating through the dictionary.
 
 Finally, we iterate through that dictionary we created to product correctly formatted output.
+
+Here are some other edge-cases I've considered and handled:
+* Input file does not have a proper column header
+* Input file has extra newline characters between lines
+* Input file has records that do not contain the proper amount of fields
+* Input file has alternately capitalized company names e.g. "TRANSWORLD SYSTEMS" should be treated the same as "transworld systems"
+
