@@ -29,7 +29,7 @@ def parseLine(line, records):
                 i += 1
             i += 1
         else:
-            # If not, the value we extract either goes until the next comma, or the end of the line
+        # If not, the value we extract either goes until the next comma, or the end of the line
             while i != len(line) - 1 and line[i] != ',':
                 buff += line[i]
                 i += 1
@@ -106,12 +106,15 @@ def main(inputFile, outputFile):
     for i in tupes:
         parseLine(i, myRecords)
     
-   # If there were any stray newline tokens in the file, they produce an empty string, so we remove them
-   # This is another O(n) operation, maybe a better solution is possible?
-    for i in myRecords:
-        if ( len(i) == 0):
-            myRecords.remove(i)
     
+    for i in myRecords:
+        print(i)
+    
+    print(len(myRecords))
+
+    exit(1)
+
+
     # Use a dictionary to hold indices of fields
     schemaIndices = {}
     index = 0
@@ -124,6 +127,8 @@ def main(inputFile, outputFile):
     productInd = schemaIndices["Product"]
     dateIndex = schemaIndices["Date received"]
     companyIndex = schemaIndices["Company"]    
+
+    print("testing... productInd- " + str(productInd)  + " dateIndex- " + str(dateIndex) + " companyIndex- " + str(companyIndex) )
 
     # Key is tuple<Product, Year>, Value is a Dictionary of <Company Name, # of Complaints>
     companyComplaintsDict = {}
@@ -145,9 +150,7 @@ def main(inputFile, outputFile):
     for i in myOutputList:
         f.write(i + '\n')    
 
-    print("Completed successfully")
-
-    exit(1)
+    # exit(1)
 
 
 if __name__ == '__main__':
