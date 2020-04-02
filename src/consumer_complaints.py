@@ -69,8 +69,7 @@ def getOutputList(records):
         # This denotes the highest number of complaints against one company
         ratio = maxComplaints/totalComplaints
         ratio *= 100
-        if not ratio.is_integer():
-            ratio += 1
+        ratio = round(ratio)
         ratio = int(ratio)
         complaintsAgainstMax = ratio
         line += str(totalComplaints) + "," + str(companyCounter) + "," + str(complaintsAgainstMax)
