@@ -99,13 +99,13 @@ def main(inputFile, outputFile):
             tupes.append(i)
     except:
         print("Error opening inputFile, exiting...")
-        # exit(1)
+        exit(1)
 
     # List for holding parsed tupes
     myRecords = []
     for i in tupes:
         parseLine(i, myRecords)
-    
+        
    # If there were any stray newline tokens in the file, they produce an empty string, so we remove them
    # This is another O(n) operation, maybe a better solution is possible?
     for i in myRecords:
