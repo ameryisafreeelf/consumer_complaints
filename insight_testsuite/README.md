@@ -14,7 +14,7 @@ Threw in a bunch of spaces between the header and one record. Ensure that this i
 
 4. Company names capitalized test
 
-Ensure that different capitalizations of the same company name are treated different. The output should indicate that only one company received complaints. 
+Ensure that different capitalizations of the same company name are treated the same. The output should indicate that only one company received complaints. 
 
 5. Test 1
 
