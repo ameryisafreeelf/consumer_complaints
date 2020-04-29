@@ -1,4 +1,4 @@
-# Insight Fellows now costs money is no longer free as of April 2020.
+Note: Insight Fellows now costs money is no longer free as of April 2020. Hope that may be helpful to anyone who may not be aware.
 
 
 # Consumer Complaints
